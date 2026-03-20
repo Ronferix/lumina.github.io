@@ -835,12 +835,12 @@ section {
     left: 0;
     width: 100%;
     height: 100%;
-    filter: sepia(20%) saturate(0.7) brightness(0.85);
+    filter: brightness(1.6) contrast(1.4) saturate(0.6);
     transition: filter 0.4s ease;
 }
 
 .contact-map:hover #lumina-map {
-    filter: sepia(10%) saturate(0.85) brightness(0.95);
+    filter: brightness(1.8) contrast(1.5) saturate(0.6);
 }
 
 /* Override Leaflet attribution to match dark theme */
@@ -1798,15 +1798,17 @@ footer {
 
 .lang-options {
     display: none;
-    position: absolute;
-    top: calc(100% + 0.5rem);
-    right: 0;
+    position: fixed; /* escapa el stacking context del nav */
     list-style: none;
     background: rgba(10, 10, 10, 0.98);
     border: 1px solid rgba(201, 169, 97, 0.3);
     backdrop-filter: blur(10px);
     min-width: 52px;
-    z-index: 200;
+    z-index: 10000;
+}
+
+.lang-options li {
+    list-style: none;
 }
 
 .lang-dropdown.open .lang-options {
@@ -1967,41 +1969,87 @@ footer {
    ========================================================================== */
 
 @media (max-width: 768px) {
+    /* ── Navegación ── */
     header nav {
-        padding: 1.5rem 2rem;
+        padding: 1.25rem 1.5rem;
+        mix-blend-mode: normal;
+        background: rgba(10, 10, 10, 0.92);
+        backdrop-filter: blur(12px);
+    }
+
+    /* Mantener padding compacto al hacer scroll */
+    header nav.scrolled {
+        padding: 1.25rem 1.5rem;
     }
 
     .nav-toggle {
         display: flex;
     }
 
-    /* Hide desktop nav-links on mobile */
     header .nav-links {
         display: none;
     }
 
-    /* Nav bar gets solid background when menu is open */
     header.nav-open nav {
-        mix-blend-mode: normal;
         background: rgba(10, 10, 10, 0.98);
         z-index: 9500;
     }
 
-    /* Show mobile menu (body-level overlay) */
     .mobile-menu.is-open {
         display: flex;
     }
 
+    /* ── Hero ── */
     .hero-title {
-        font-size: 2.75rem;
+        font-size: clamp(2.2rem, 8vw, 3rem);
     }
 
+    .hero-subtitle {
+        font-size: 0.7rem;
+        letter-spacing: 3px;
+    }
+
+    .hero-location {
+        font-size: 0.72rem;
+        letter-spacing: 2px;
+    }
+
+    /* ── Secciones generales ── */
     section {
-        padding: 4rem 2rem;
+        padding: 3.5rem 1.5rem;
     }
 
+    .section-header {
+        margin-bottom: 2.5rem;
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+        letter-spacing: 1px;
+    }
+
+    .section-subtitle {
+        letter-spacing: 4px;
+        font-size: 0.72rem;
+    }
+
+    /* ── Intro ── */
     .intro {
-        padding: 5rem 2rem 6rem;
+        padding: 4rem 1.5rem 5rem;
+    }
+
+    .intro-headline {
+        margin-bottom: 2rem;
+    }
+
+    .intro-headline-main {
+        font-size: clamp(1.4rem, 5vw, 1.8rem);
+        letter-spacing: 1px;
+    }
+
+    .intro-text {
+        font-size: 1rem;
+        line-height: 1.8;
     }
 
     .intro-pills {
@@ -2013,13 +2061,23 @@ footer {
         font-size: 0.7rem;
     }
 
+    /* ── Servicios ── */
     .services-grid {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 1.25rem;
     }
 
+    .service-item {
+        padding: 2rem 1.5rem;
+    }
+
+    .service-item h3 {
+        font-size: 1.35rem;
+    }
+
+    /* ── Galería ── */
     .gallery {
-        padding: 4rem 2rem 0;
+        padding: 3.5rem 1.5rem 0;
         grid-template-columns: 1fr;
     }
 
@@ -2027,49 +2085,119 @@ footer {
         margin-bottom: 2rem;
     }
 
+    .gallery-section-header .section-title {
+        font-size: 1.75rem;
+    }
+
+    /* ── Info blocks ── */
     .info-blocks {
-        padding: 4rem 2rem;
+        padding: 3.5rem 1.5rem;
     }
 
     .info-blocks-inner {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 1.5rem;
     }
 
-    .contact {
-        grid-template-columns: 1fr;
-    }
-
-    .contact-map {
-        min-height: 400px;
+    /* ── Experiencia ── */
+    .experience-description {
+        font-size: 0.95rem;
+        line-height: 1.8;
     }
 
     .experience-list {
         gap: 2rem;
+        margin-top: 2.5rem;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .experience-item h4 {
+        font-size: 1.3rem;
+    }
+
+    /* ── CTA ── */
+    .cta {
+        height: auto;
+        min-height: 60vh;
+        padding: 5rem 1.5rem;
+        background-attachment: scroll; /* fixed no funciona bien en iOS */
+    }
+
+    .cta-label {
+        font-size: 0.72rem;
+        letter-spacing: 4px;
     }
 
     .cta-title,
     .cta h2 {
-        font-size: 2rem;
+        font-size: clamp(1.8rem, 6vw, 2.5rem);
+    }
+
+    .cta-text {
+        font-size: 0.9rem;
+    }
+
+    .cta-button {
+        padding: 1rem 2rem;
+        font-size: 0.7rem;
+    }
+
+    /* ── Contacto ── */
+    .contact {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-info {
+        padding: 3rem 1.5rem;
+    }
+
+    .contact-item {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .contact-value {
+        font-size: 1.25rem;
+    }
+
+    .contact-map {
+        min-height: 300px;
+    }
+
+    /* ── Footer ── */
+    footer {
+        padding: 2.5rem 1.5rem;
     }
 
     .footer-content {
         flex-direction: column;
+        gap: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .footer-brand {
+        font-size: 1.6rem;
+    }
+
+    .footer-social {
         gap: 1.5rem;
-        margin-bottom: 2rem;
+        font-size: 0.72rem;
     }
 
     .footer-legal {
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 0.4rem;
+        font-size: 0.7rem;
     }
 
+    /* ── Páginas internas ── */
     .page-hero {
-        padding: 10rem 2rem 4rem;
+        padding: 8rem 1.5rem 3rem;
     }
 
     .service-detail-nav {
-        padding: 1.5rem 2rem;
+        padding: 1.5rem 1.5rem;
     }
 
     .service-spheres {
@@ -2091,19 +2219,19 @@ footer {
     }
 
     .service-detail-content {
-        padding: 3rem 2rem;
+        padding: 2.5rem 1.5rem;
     }
 
     .service-detail-section {
-        padding: 3rem 0;
-        scroll-margin-top: 6rem;
+        padding: 2.5rem 0;
+        scroll-margin-top: 5rem;
     }
 
     .service-detail-title {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
     }
 
     .page-cta {
-        padding: 3rem 2rem;
+        padding: 3rem 1.5rem;
     }
 }

@@ -149,32 +149,45 @@
     }
 
     /**
-     * Dropdown selector de idioma en el nav
+     * Dropdown selector de idioma en el nav.
+     * El panel usa position:fixed para escapar el stacking context
+     * de mix-blend-mode del nav en desktop.
      */
     function initLangDropdown() {
         var dropdown = document.getElementById('langDropdown');
         if (!dropdown) return;
 
         var currentBtn = dropdown.querySelector('.lang-current');
+        var panel = dropdown.querySelector('.lang-options');
+
+        function openPanel() {
+            var rect = currentBtn.getBoundingClientRect();
+            panel.style.top = (rect.bottom + 6) + 'px';
+            panel.style.left = rect.left + 'px';
+            dropdown.classList.add('open');
+            currentBtn.setAttribute('aria-expanded', 'true');
+        }
+
+        function closePanel() {
+            dropdown.classList.remove('open');
+            currentBtn.setAttribute('aria-expanded', 'false');
+        }
 
         currentBtn.addEventListener('click', function (e) {
             e.stopPropagation();
-            var isOpen = dropdown.classList.toggle('open');
-            currentBtn.setAttribute('aria-expanded', String(isOpen));
+            dropdown.classList.contains('open') ? closePanel() : openPanel();
         });
 
         dropdown.querySelectorAll('.lang-option').forEach(function (btn) {
             btn.addEventListener('click', function () {
                 var lang = this.getAttribute('data-lang');
                 if (window.luminaI18n) window.luminaI18n.setLang(lang);
-                dropdown.classList.remove('open');
-                currentBtn.setAttribute('aria-expanded', 'false');
+                closePanel();
             });
         });
 
         document.addEventListener('click', function () {
-            dropdown.classList.remove('open');
-            currentBtn.setAttribute('aria-expanded', 'false');
+            closePanel();
         });
     }
 
