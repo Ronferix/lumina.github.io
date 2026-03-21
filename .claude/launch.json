@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "Python HTTP Server",
+      "name": "Static Server",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8000"],
-      "port": 8000
+      "runtimeArgs": ["-m", "http.server", "8080", "-d", "C:\\Users\\alber\\OneDrive\\Documents\\GitHub\\lumina\\.claude\\worktrees\\gifted-shockley"],
+      "port": 8080
     }
   ]
 }

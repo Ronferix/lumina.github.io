@@ -58,6 +58,7 @@ h1, h2, h3, .brand {
     background: var(--black);
     z-index: 9999;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     transition: opacity 0.8s ease, visibility 0.8s;
@@ -74,6 +75,22 @@ h1, h2, h3, .brand {
     color: var(--gold);
     letter-spacing: 8px;
     animation: pulse 2s infinite;
+}
+
+.loader-divider {
+    width: 1px;
+    height: 28px;
+    background: rgba(201, 169, 97, 0.4);
+    margin: 0.75rem 0;
+}
+
+.loader-page {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--white);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.7;
 }
 
 @keyframes pulse {
@@ -142,6 +159,24 @@ header .nav-links a::after {
 
 header .nav-links a:hover::after {
     width: 100%;
+}
+
+/* Hide nav content at top for clean hero view (desktop) */
+@media (min-width: 769px) {
+    header nav:not(.scrolled) .brand,
+    header nav:not(.scrolled) .nav-links,
+    header nav:not(.scrolled) .lang-dropdown {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+    }
+
+    header nav.scrolled .brand,
+    header nav.scrolled .nav-links,
+    header nav.scrolled .lang-dropdown {
+        opacity: 1;
+        pointer-events: auto;
+    }
 }
 
 .nav-lang {
@@ -835,12 +870,12 @@ section {
     left: 0;
     width: 100%;
     height: 100%;
-    filter: brightness(1.6) contrast(1.4) saturate(0.6);
+    filter: brightness(1.15) contrast(1.7) saturate(0.15) sepia(0.2);
     transition: filter 0.4s ease;
 }
 
 .contact-map:hover #lumina-map {
-    filter: brightness(1.8) contrast(1.5) saturate(0.6);
+    filter: brightness(1.25) contrast(1.8) saturate(0.15) sepia(0.2);
 }
 
 /* Override Leaflet attribution to match dark theme */
@@ -903,11 +938,28 @@ a.gallery-item {
 
 /* Contact intro text (contacto.html) */
 .contact-intro-text {
-    font-size: 0.95rem;
-    color: var(--text-muted);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    color: var(--gray);
+    font-style: italic;
     letter-spacing: 0.5px;
-    line-height: 1.7;
-    margin-bottom: 2rem;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Leaflet zoom controls dark theme */
+.leaflet-control-zoom a {
+    background: var(--dark-gray) !important;
+    color: var(--gold) !important;
+    border-color: rgba(201, 169, 97, 0.25) !important;
+    transition: all 0.3s !important;
+}
+
+.leaflet-control-zoom a:hover {
+    background: rgba(201, 169, 97, 0.15) !important;
+    color: var(--light-gold) !important;
 }
 
 /* ==========================================================================
@@ -998,23 +1050,43 @@ footer {
    Página interna - Servicios (estilo Áreas Generales Benavento)
    ========================================================================== */
 
-.page-inner .loader {
-    display: none;
+.page-hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 0;
+    text-align: center;
 }
 
-.page-hero {
-    padding: 12rem 4rem 6rem;
+.page-hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+.page-hero-content {
+    position: relative;
+    z-index: 2;
     text-align: center;
-    background: var(--black);
+    max-width: 700px;
+    padding: 0 2rem;
 }
 
 .page-hero-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-size: clamp(2.5rem, 6vw, 4rem);
     font-weight: 300;
     letter-spacing: 2px;
     color: var(--white);
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    animation: fadeInUp 1s ease;
 }
 
 .page-hero-subtitle {
@@ -1022,6 +1094,18 @@ footer {
     text-transform: uppercase;
     letter-spacing: 5px;
     color: var(--gold);
+    animation: fadeInUp 1s ease 0.15s backwards;
+}
+
+.page-hero .scroll-indicator {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    flex-direction: column;
+    gap: 0.5rem;
+    cursor: pointer;
 }
 
 .service-detail-nav {
@@ -1179,10 +1263,6 @@ footer {
 /* ==========================================================================
    Página Equipo (Conoce al equipo) - Seccionada y con animaciones
    ========================================================================== */
-
-.page-equipo .loader {
-    display: none;
-}
 
 /* Hero equipo */
 .team-hero {
@@ -2220,7 +2300,11 @@ footer {
 
     /* ── Páginas internas ── */
     .page-hero {
-        padding: 8rem 1.5rem 3rem;
+        min-height: 90vh;
+    }
+
+    .page-hero .scroll-indicator {
+        bottom: 2rem;
     }
 
     .service-detail-nav {

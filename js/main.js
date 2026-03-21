@@ -99,12 +99,20 @@
      * Scroll suave al hacer clic en el indicador "Descubrir"
      */
     function initScrollIndicator() {
-        const indicator = document.querySelector('.scroll-indicator');
-        const introSection = document.getElementById('intro');
-        if (!indicator || !introSection) return;
-
-        indicator.addEventListener('click', function () {
-            introSection.scrollIntoView({ behavior: 'smooth' });
+        document.querySelectorAll('.scroll-indicator').forEach(function (indicator) {
+            indicator.addEventListener('click', function () {
+                var targetSelector = this.getAttribute('data-scroll-to');
+                var target = targetSelector ? document.querySelector(targetSelector) : document.getElementById('intro');
+                if (!target) {
+                    // Fallback: scroll to the next sibling section
+                    var hero = this.closest('section') || this.closest('.team-hero');
+                    if (hero && hero.nextElementSibling) {
+                        hero.nextElementSibling.scrollIntoView({ behavior: 'smooth' });
+                    }
+                    return;
+                }
+                target.scrollIntoView({ behavior: 'smooth' });
+            });
         });
     }
 

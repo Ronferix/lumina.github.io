@@ -13,6 +13,11 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body class="page-inner">
+    <div class="loader" id="loader" aria-hidden="true">
+        <span class="loader-text">LUMINA</span>
+        <span class="loader-divider"></span>
+        <span class="loader-page">Experiencia</span>
+    </div>
 
     <header>
         <nav id="navbar" role="navigation" aria-label="Menú principal">
@@ -43,8 +48,15 @@
 
     <main>
         <section class="page-hero">
-            <h1 class="page-hero-title" data-i18n="page.exp.title">La Experiencia</h1>
-            <p class="page-hero-subtitle" data-i18n="page.exp.subtitle">Donde la sabiduría ancestral y el bienestar moderno convergen</p>
+            <div class="page-hero-bg" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1920&auto=format&fit=crop&q=80') center/cover;" aria-hidden="true"></div>
+            <div class="page-hero-content">
+                <p class="page-hero-subtitle" data-i18n="page.exp.subtitle">Donde la sabiduría ancestral y el bienestar moderno convergen</p>
+                <h1 class="page-hero-title" data-i18n="page.exp.title">La Experiencia</h1>
+            </div>
+            <div class="scroll-indicator" role="button" tabindex="0" aria-label="Ir a la siguiente sección">
+                <span>Descubrir</span>
+                <div class="scroll-line" aria-hidden="true"></div>
+            </div>
         </section>
 
         <section class="experience" id="experiencia" aria-labelledby="exp-heading">
